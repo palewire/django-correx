@@ -1,0 +1,6 @@
+To install django-correx:
+
+    01. Download the source code and position it on your PYTHONPATH
+    02. Add 'correx' to INSTALLED_APPS in your settings.py
+    03. Copy the change_form.html file, if you want to bother with it, to a new `correx` folder in templates/admin/
+    04. syncdb and get going!

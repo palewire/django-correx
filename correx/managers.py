@@ -1,0 +1,10 @@
+from django.db import models
+from django.dispatch import dispatcher
+
+class ChangeLogManager(models.Manager):
+
+	def live(self):
+		"""
+		QuerySet for all comments set for publication.
+		"""
+		return self.get_query_set().filter(is_public=True)

@@ -1,0 +1,18 @@
+=============
+django-correx
+=============
+
+A model and set of template tags that can be used to pull in 
+lists of updates, deletions and corrections across numerous apps.
+
+The name is drawn from 'correx', a common newspaper slang term for each day's corrections list.
+
+This is a very ugly, early release by a well-meaning, but perhaps misguided, person. 
+
+Criticism, feedback and fanmail all appreciated at <palewire@palewire.com>
+
+Contributing
+------------
+
+The source is on GitHub: http://github.com/palewire/django-correx. Feel
+free to send me pull requests, or send patches to <palewire@palewire.com>.
