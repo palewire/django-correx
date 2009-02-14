@@ -5,6 +5,9 @@ django-correx
 A model and set of template tags that can be used to pull in 
 lists of updates, deletions and corrections across numerous apps.
 
+The objective isn't a complete, automagic catalog of every change to the database, 
+but instead a curated list of changes intended for presentation to the public.
+
 The name is drawn from 'correx', a common newspaper slang term for each day's corrections list.
 
 This is a very ugly, early release by a well-meaning, but perhaps misguided, person. 
