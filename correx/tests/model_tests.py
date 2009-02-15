@@ -9,3 +9,4 @@ class CorrexModelTests(ChangeTestCase):
         """
         for c in self.createSomeChanges():
             self.failIfEqual(c.pub_date, None)
+            c.save()
