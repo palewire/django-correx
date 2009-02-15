@@ -6,13 +6,17 @@ from django.contrib.sites.models import Site
 from django.test import TestCase
 from django.db.models.loading import get_apps, load_app
 
+# Add the test models to INSTALLED_APPS
+# Not sure if this the best way to do it.
+# I just ripped the code out of the runtests.py
+# file that is packaged with 1.0
 from django.conf import settings
 old_installed_apps = settings.INSTALLED_APPS
 model_label = 'correx.tests'
 mod = load_app(model_label)
 settings.INSTALLED_APPS.append(model_label)
 
-#Shortut
+# Shortcut
 CT = ContentType.objects.get_for_model
 
 # Helper base class for changes tests that need data.
@@ -98,4 +102,5 @@ class ChangeTestCase(TestCase):
 
 from correx.tests.unittests.model_tests import *
 from correx.tests.unittests.templatetag_tests import *
+# Resetting INSTALLED_APPS...though I'm not sure it does everything it should
 settings.INSTALLED_APPS = old_installed_apps
