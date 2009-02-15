@@ -13,7 +13,8 @@ Installation
 03. Enter `python setup.py install` and the package will install itself on your PYTHONPATH
 04. Add 'correx' to INSTALLED_APPS in settings.py
 05. Run 'python manage.py syncdb' to create the database tables
-06. Copy the `media` folder included in the tar file to your MEDIA_URL if you intended to use the sample icons
+06  Add `(r'^correx/', include('correx.urls')),` to your root urls.py file
+07. Copy the `media` folder included in the tar file to your MEDIA_URL if you intended to use the sample icons
 
 That's it! I've tried to explain how everything works in the docstrings. 
 
