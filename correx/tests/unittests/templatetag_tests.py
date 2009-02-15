@@ -42,6 +42,17 @@ class ChangeTemplateTagTests(ChangeTestCase):
         self.assertEqual(out, "")
         self.assertEqual(list(ctx["latest_changes"]), [match])
 
+    def testGetChangeListByApp(self):
+        """
+        Tests the tag for pulling the most recent changes for a particular app.
+        """
+        self.createSomeChanges()
+        t = "{% load correx_tags %}{% get_changes_for_app tests 1 as latest_changes %}"
+        match = Change.objects.get(pk=6)
+        ctx, out = self.render(t, c=match)
+        self.assertEqual(out, "")
+        self.assertEqual(list(ctx["latest_changes"]), [match])
+
 """
     def testGetChangeListByApp(self):
         self.createSomeChanges()
