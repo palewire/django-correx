@@ -30,6 +30,9 @@ class ChangeType(models.Model):
 		return u'%s (%s)' % (self.name, self.change_count)
 		
 	def count_changes(self):
+		"""
+		Counts the total number of live changes of this type and saves the result to the `change_count` field.
+		"""
 		count = self.change_set.filter(is_public=True).count()
 		self.change_count = count
 		self.save()
@@ -84,6 +87,7 @@ class Change(models.Model):
 
 	get_content_object.short_description = _('Record')
 	
-	
+
+# Rerun the totals for each ChangeType whenever a Change is saved or deleted.
 signals.post_save.connect(count_changes, sender=Change)
 signals.post_delete.connect(count_changes, sender=Change)

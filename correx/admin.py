@@ -3,6 +3,7 @@ from correx.models import Change, ChangeType
 
 class ChangeTypeAdmin(admin.ModelAdmin):
 	list_display = ('name', 'description', 'change_count',)
+	prepopulated_fields = {"slug": ("name",)}
 	
 admin.site.register(ChangeType, ChangeTypeAdmin)
 

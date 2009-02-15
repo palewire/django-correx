@@ -5,6 +5,6 @@ class ChangeManager(models.Manager):
 
 	def live(self):
 		"""
-		QuerySet for all changes set for publication.
+		All changes set for publication.
 		"""
 		return self.get_query_set().filter(is_public=True)
