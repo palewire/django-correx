@@ -32,6 +32,20 @@ class ChangeType(models.Model):
 	def __unicode__(self):
 		return u'%s (%s)' % (self.name, self.change_count)
 		
+	def get_absolute_url(self):
+		return u'/change-log/type/%s/' % self.slug
+
+	def get_icon_url(self):
+		"""
+		The path to this type's default icon image.
+		"""
+		import os
+		root = settings.MEDIA_URL
+		if not root:
+			root = '/media/'
+		path = os.path.join(root, 'img')
+		return u'%s/%s.gif' % (path, self.slug)
+		
 	def count_changes(self):
 		"""
 		Counts the total number of live changes of this type and saves the result to the `change_count` field.
@@ -80,7 +94,10 @@ class Change(models.Model):
 
 	def __unicode__(self):
 		return u'%s: %s...' % (self.pub_date, self.get_short_description())
-		
+
+	def get_absolute_url(self):
+		return u'/change-log/change/%s/' % self.pk
+
 	def get_short_description(self):
 		"""
 		A shorter version of the description field for use in tight spaces.
