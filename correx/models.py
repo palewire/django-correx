@@ -6,24 +6,39 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 from correx.managers import ChangeManager
+from django.db.models import signals
+from correx.signals import count_changes
 
 import datetime
+
+class ChangeType(models.Model):
+	"""
+	The type of change being recorded. 
+	
+	Seeded with correction, update, addition and deletion by default.
+	"""
+	name = models.CharField(max_length=20, primary_key=True, help_text=_('The name of the change type'))
+	slug = models.SlugField(unique=True, help_text=_('A stripped version of the name for URL strings'))
+	description = models.TextField(null=True, blank=True, help_text=_('A description of the change type'))
+	change_count = models.IntegerField(default=0, editable=False, help_text=_('The number of changes of this type. Automated.'))
+
+	class Meta:
+		db_table = 'django_content_changetype'
+		ordering = ['name']
+
+	def __unicode__(self):
+		return u'%s (%s)' % (self.name, self.change_count)
+		
+	def count_changes(self):
+		count = self.change_set.filter(is_public=True).count()
+		self.change_count = count
+		self.save()
 
 
 class Change(models.Model):
 	"""
 	A change that is optionally related to a site, app, model or object.
 	"""
-	# The different types of changes available. 
-	# This could potentially be broken out into its own model 
-	# so that new types could be added in the admin panel.
-	CHANGE_TYPES = (
-		(1, 'Correction'),
-		(2, 'Update'),
-		(3, 'Addition'),
-		(4, 'Deletion'),
-	)
-	
 	# A list of all the installed apps in a set of paired tuples.
 	# I've excluded the django contrib apps and included them as
 	# strings to avoid "magic numbers" and so that it won't matter 
@@ -34,7 +49,7 @@ class Change(models.Model):
 	
 	# The change
 	description    = models.TextField(help_text=_('A description of the change'))
-	change_type    = models.IntegerField(choices=CHANGE_TYPES, help_text=_('The type of change'))
+	change_type    = models.ForeignKey(ChangeType, help_text=_('The type of change'))
 	pub_date       = models.DateTimeField(default=datetime.datetime.now)
 	is_public      = models.BooleanField(default=False, help_text=_('Check this box to publish the comment on the live site.'), verbose_name=_('Publish'))
 
@@ -68,3 +83,7 @@ class Change(models.Model):
 			return None
 
 	get_content_object.short_description = _('Record')
+	
+	
+signals.post_save.connect(count_changes, sender=Change)
+signals.post_delete.connect(count_changes, sender=Change)
