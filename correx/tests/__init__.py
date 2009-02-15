@@ -23,7 +23,7 @@ class ChangeTestCase(TestCase):
         # A change without links to objects
         change_without_link = Change.objects.create(
             description='Correction without connection', 
-            change_type=1, 
+            change_type_id='Correction', 
             pub_date='2009-02-14',
             is_public=True
         )
@@ -34,7 +34,7 @@ class ChangeTestCase(TestCase):
         )
         change_with_site = Change.objects.create(
             description='Site-level addition', 
-            change_type=3, 
+            change_type_id='Addition', 
             pub_date='2009-02-14', 
             site=lat_data_desk,
             is_public=True
@@ -52,7 +52,7 @@ class ChangeTestCase(TestCase):
         )
         change_with_user = Change.objects.create(
             description='Russ makes a site-wide addition', 
-            change_type=3, 
+            change_type_id='Addition', 
             pub_date='2009-02-14', 
             site=lat_data_desk, 
             user=russ,
@@ -62,7 +62,7 @@ class ChangeTestCase(TestCase):
         author_ct = CT(Author)
         change_with_app = Change.objects.create(
             description='An app-wide update', 
-            change_type=2, 
+            change_type_id='Update', 
             pub_date='2009-02-15', 
             site=lat_data_desk, 
             user=russ, 
@@ -72,7 +72,7 @@ class ChangeTestCase(TestCase):
         # A change with a model
         change_with_model = Change.objects.create(
             description='An update to an author bio', 
-            change_type=2, 
+            change_type_id='Update', 
             pub_date='2009-02-14', 
             site=lat_data_desk, 
             user=russ, 
@@ -84,7 +84,7 @@ class ChangeTestCase(TestCase):
         article_ct = CT(Article)
         change_with_object = Change.objects.create(
             description='A correction to a story', 
-            change_type=1, 
+            change_type_id='Correction', 
             pub_date='2009-02-16', 
             site=lat_data_desk, 
             user=russ, 
