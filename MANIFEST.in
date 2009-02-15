@@ -1,0 +1,8 @@
+include README
+include LICENSE
+include INSTALL
+recursive-include media *
+recursive-include correx/templates *
+recursive-include correx/fixtures *
+recursive-include correx/tests/fixtures *
+

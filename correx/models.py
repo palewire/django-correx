@@ -59,6 +59,11 @@ class ChangeType(models.Model):
 class Change(models.Model):
 	"""
 	A change that is optionally related to a site, app, model or object.
+	
+	The custom manager live() returns only changes where `is_public` is True. 
+	
+	Example:
+	Change.objects.live()
 	"""
 	# A list of all the installed apps in a set of paired tuples.
 	# I've excluded the django contrib apps and included them as
