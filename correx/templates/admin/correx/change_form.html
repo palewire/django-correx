@@ -81,18 +81,22 @@
 		showObjectLookup();
 	}
 
-	// When an app is selected, show the model box.
-	// It would be nice if this could filter the model list
-	// by app, since many model names are going to recurr
-	// and large projects will have a long list of models
+	// When an app dropdown is selected...
 	$("#id_content_app").change(function () {
+		// Wipe the object_id
+		$("#id_object_id").val("");
+		// Wipe the model dropdown
 		$("#id_content_type").clearSelect();
+		// Make a JSON call to fetch the model names in the selected app and refill the model dropdown
 		fetch_contenttypes_by_app($("#id_content_app option:selected").val());
+		// Make sure the model dropdown is showing
 		$(".content_type").show();
 	});
 
-	// When model is selected...
+	// When model dropdown is selected...
 	$("#id_content_type").change(function () {
+		// Wipe the object_id
+		$("#id_object_id").val("");
 		// Unhide the object id box
 		$(".object_id").show();
 		// Show the object selection link

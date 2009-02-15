@@ -17,7 +17,7 @@ def filter_contenttypes_by_app(request):
 	# Grab the post variable
 	app_label = request.GET.get('app_label')
 	if not app_label:
-		HttpResponse(simplejson.dumps(response_dict), mimetype='application/javascript')
+		HttpResponse(simplejson.dumps(response_list), mimetype='application/javascript')
 	
 	try:
 		# Fetch all of the ContentType records from that app
