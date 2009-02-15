@@ -28,6 +28,7 @@ class ChangeType(models.Model):
 	class Meta:
 		db_table = 'django_content_changetype'
 		ordering = ['name']
+		verbose_name = _('type')
 
 	def __unicode__(self):
 		return u'%s (%s)' % (self.name, self.change_count)
@@ -69,8 +70,8 @@ class Change(models.Model):
 	
 	# The change
 	description    = models.TextField(help_text=_('A description of the change'))
-	change_type    = models.ForeignKey(ChangeType, help_text=_('The type of change'))
-	pub_date       = models.DateTimeField(default=datetime.datetime.now)
+	change_type    = models.ForeignKey(ChangeType, help_text=_('The type of change'), verbose_name=_('Type'))
+	pub_date       = models.DateTimeField(default=datetime.datetime.now, verbose_name=_('Publication Date'))
 	is_public      = models.BooleanField(default=False, help_text=_('Check this box to publish the comment on the live site.'), verbose_name=_('Publish'))
 
 	# Optional connection to the user making the change
@@ -90,7 +91,7 @@ class Change(models.Model):
 		db_table = 'django_content_changelog'
 		ordering = ['-pub_date']
 		get_latest_by = "pub_date"
-		verbose_name = 'change'
+		verbose_name = _('change')
 
 	def __unicode__(self):
 		return u'%s: %s...' % (self.pub_date, self.get_short_description())
