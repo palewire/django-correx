@@ -12,6 +12,9 @@ The name is drawn from 'correx', a common newspaper slang term for each day's co
 
 This is a very ugly, early release by a well-meaning, but perhaps misguided, person. 
 
+Almost all of the good parts are lifted from such great pluggable apps as 
+django.contrib.comments and django-tagging
+
 Criticism, feedback and fan-mail all appreciated at <palewire@palewire.com>
 
 Contributing
