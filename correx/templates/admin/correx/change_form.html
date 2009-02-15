@@ -1,17 +1,14 @@
-<!--
-	A slight modification of http://www.djangosnippets.org/snippets/1085/ by adnan 
-	and some methods lifted from Steve Michelotti below
-	http://geekswithblogs.net/michelotti/archive/2008/06/28/mvc-json-jsonresult-and-jquery.aspx
-	
-	Since including an app, model or object along with your change is optional,
+<!---
+	A  consolidation and expansion of snippets first published by adnan_ and Steve Michelotti_.
+
+	Since including an app, model or object with your change is optional,
 	the idea is to only show those fields progressively as the user fills out the form.
+	
 	First the app, then the model, and then finally the object.
 	
-	// ToDo
-	* In a situation where the user is entering an existing record for editing, 
-	  we'll want to have the model thing filter at the time of page load, but still keep its
-	  selected app. That might be a little tricky.
-	
+	_http://www.djangosnippets.org/snippets/1085/
+	_http://tinyurl.com/jQuery-and-JSON-example
+
 -->
 
 {% extends "admin/change_form.html" %}
@@ -25,7 +22,7 @@
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 <script>
 
-	function showObjectLookup() {
+	function show_object_lookup() {
 		$(".object_id").append("<div id='lookup_box'></div>");
 		// Grab the app and model names
 		var app = $("#id_content_app option:selected").text();
@@ -37,7 +34,7 @@
 		$("#lookup_id_object_id").attr('href', link_root + app + '/' + model + '/');
 	}
 	
-	function fetch_contenttypes_by_app(selected_app_label) {
+	function fetch_contenttypes_by_app(selected_app_label, preselected_val) {
 		$.getJSON("/correx/admin/filter/contenttype/", { app_label : selected_app_label }, 
 			function(data){
 				$("#id_content_type").fillSelect(data)
@@ -45,6 +42,11 @@
 					$(".content_type").hide("slow");
 				} else {
 					$(".content_type").show("slow");
+				}
+				if (preselected_val){
+					alert(preselected_val);
+					$("#id_content_type").val(preselected_val);
+					alert($("#id_content_type").val());
 				}
 			});
 	}
@@ -78,13 +80,16 @@
 	// but it shouldn't hide them if they're already filled and we're editing an existing record.
 	if ($("#id_content_type option:selected").val() === '') {
 		$(".content_type").hide("slow");
+	} else {
+		var preselected_val = $("#id_content_type option:selected").val();
+		fetch_contenttypes_by_app($("#id_content_app option:selected").val(), preselected_val);
 	}
 	
 	if ($("#id_object_id").val() === '') {
 		$(".object_id").hide("slow");
 	} else {
 		// Show the object selection link
-		showObjectLookup();
+		show_object_lookup();
 	}
 
 	// When an app dropdown is selected...
@@ -94,7 +99,7 @@
 		// Wipe the model dropdown
 		$("#id_content_type").clearSelect();
 		// Make a JSON call to fetch the model names in the selected app and refill the model dropdown
-		count = fetch_contenttypes_by_app($("#id_content_app option:selected").val());
+		fetch_contenttypes_by_app($("#id_content_app option:selected").val());
 	});
 
 	// When model dropdown is selected...
@@ -104,7 +109,7 @@
 		// Unhide the object id box
 		$(".object_id").show("slow");
 		// Show the object selection link
-		showObjectLookup();
+		show_object_lookup();
 		if ($("#id_content_type").val() === '') {
 			$(".object_id").hide("slow");
 		}
