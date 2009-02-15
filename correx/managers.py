@@ -5,6 +5,6 @@ class ChangeLogManager(models.Manager):
 
 	def live(self):
 		"""
-		QuerySet for all comments set for publication.
+		QuerySet for all changes set for publication.
 		"""
 		return self.get_query_set().filter(is_public=True)

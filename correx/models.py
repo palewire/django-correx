@@ -12,7 +12,7 @@ import datetime
 
 class ChangeLog(models.Model):
 	"""
-	A change or correction related another app, model or object.
+	A change or correction related to another app, model or object.
 	
 	>>> correction_with_no_links = ChangeLog.objects.create(description='Hello Los Angeles', change_type=1, pub_date='1982-07-22')
 	>>> correction_with_no_links
