@@ -5,55 +5,16 @@ from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
-from correx.managers import ChangeLogManager
+from correx.managers import ChangeManager
 
 import datetime
 
 
-class ChangeLog(models.Model):
+class Change(models.Model):
 	"""
-	A change or correction related to another app, model or object.
-	
-	>>> correction_with_no_links = ChangeLog.objects.create(description='Hello Los Angeles', change_type=1, pub_date='1982-07-22')
-	>>> correction_with_no_links
-	<ChangeLog: 1982-07-22: Hello Los Angeles...>
-	>>> update_with_no_links = ChangeLog.objects.create(description='Hello Los Angeles', change_type=2, pub_date='1982-07-22')
-	>>> update_with_no_links
-	<ChangeLog: 1982-07-22: Hello Los Angeles...>
-	>>> addition_with_no_links = ChangeLog.objects.create(description='Hello Los Angeles', change_type=3, pub_date='1982-07-22')
-	>>> addition_with_no_links
-	<ChangeLog: 1982-07-22: Hello Los Angeles...>
-	>>> deletion_with_no_links = ChangeLog.objects.create(description='Hello Los Angeles', change_type=4, pub_date='1982-07-22')
-	>>> deletion_with_no_links
-	<ChangeLog: 1982-07-22: Hello Los Angeles...>
-	
-	>>> lat_data_desk = Site(domain='projects.latimes.com', name='Los Angeles Times Data Desk')
-	>>> change_with_site = ChangeLog.objects.create(description='Hello Los Angeles', change_type=3, pub_date='1982-07-22', site=lat_data_desk)
-	>>> change_with_site
-	<ChangeLog: 1982-07-22: Hello Los Angeles...>
-	
-	>>> otis = User(username='Otis', first_name='Otis', last_name='Chandler', email='otis@latimes.com', password='latimes', is_staff=True, is_superuser=True)
-	>>> change_with_user = ChangeLog.objects.create(description='Hello Los Angeles', change_type=3, pub_date='1982-07-22', site=lat_data_desk, user=otis)
-	>>> change_with_user
-	<ChangeLog: 1982-07-22: Hello Los Angeles...>
-	
-	>>> mapping_la = 'mapping_la'
-	>>> change_with_app = ChangeLog.objects.create(description='Hello Los Angeles', change_type=3, pub_date='1982-07-22', site=lat_data_desk, user=otis, content_app=mapping_la)
-	>>> change_with_app
-	<ChangeLog: 1982-07-22: Hello Los Angeles...>
-	
-	>>> neighborhood = ContentType(name='Neighborhood', app_label='mapping_la', model='neighborhood')
-	>>> change_with_model = ChangeLog.objects.create(description='Hello Los Angeles', change_type=3, pub_date='1982-07-22', site=lat_data_desk, user=otis, content_app=mapping_la, content_type=neighborhood)
-	>>> change_with_model
-	<ChangeLog: 1982-07-22: Hello Los Angeles...>
-	
-	>>> neighborhood_pk = 1
-	>>> change_with_object = ChangeLog.objects.create(description='Hello Los Angeles', change_type=3, pub_date='1982-07-22', site=lat_data_desk, user=otis, content_app=mapping_la, content_type=neighborhood, object_id=neighborhood_pk)
-	>>> change_with_object
-	<ChangeLog: 1982-07-22: Hello Los Angeles...>
-	
+	A change that is optionally related to a site, app, model or object.
 	"""
-	# The different type of changes available. 
+	# The different types of changes available. 
 	# This could potentially be broken out into its own model 
 	# so that new types could be added in the admin panel.
 	CHANGE_TYPES = (
@@ -88,7 +49,7 @@ class ChangeLog(models.Model):
 	content_object = generic.GenericForeignKey(ct_field='content_type', fk_field='object_id')
 	
 	# Managers
-	objects = ChangeLogManager()
+	objects = ChangeManager()
 	
 	class Meta:
 		db_table = 'django_content_changelog'

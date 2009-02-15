@@ -1,7 +1,7 @@
 from django import template
 from django.db.models import get_app
 from django.contrib.contenttypes.models import ContentType
-from correx.models import ChangeLog
+from correx.models import Change
 
 def do_changes_by_object(parser, token):
 	""" 
@@ -37,7 +37,7 @@ class ChangesByObjectNode(template.Node):
 		except:
 			raise template.TemplateSyntaxError ("model could not be found for object")
 		context['change_list'] = \
-			ChangeLog.objects.filter(is_public=True, content_type=ctype.pk, object_id=resolved_obj.pk).order_by('-pub_date')
+			Change.objects.filter(is_public=True, content_type=ctype.pk, object_id=resolved_obj.pk).order_by('-pub_date')
 		return ''
 
 
@@ -77,7 +77,7 @@ class LatestChangesFromAllAppsNode(template.Node):
 
 	def render(self, context):
 		context['latest_changes'] = \
-			ChangeLog.objects.live().order_by('-pub_date')[:self.num]
+			Change.objects.live().order_by('-pub_date')[:self.num]
 		return ''
 
 
@@ -88,7 +88,7 @@ class LatestChangesNode(template.Node):
 
 	def render(self, context):
 		context['latest_changes'] = \
-			ChangeLog.objects.filter(is_public=True, content_app=self.app).order_by('-pub_date')[:self.num]
+			Change.objects.filter(is_public=True, content_app=self.app).order_by('-pub_date')[:self.num]
 		return ''
 
 

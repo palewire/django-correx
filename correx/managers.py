@@ -1,7 +1,7 @@
 from django.db import models
 from django.dispatch import dispatcher
 
-class ChangeLogManager(models.Manager):
+class ChangeManager(models.Manager):
 
 	def live(self):
 		"""
