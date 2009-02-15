@@ -96,6 +96,6 @@ class ChangeTestCase(TestCase):
 
         return change_without_link, change_with_site, change_with_user, change_with_app, change_with_model, change_with_object
 
-from correx.tests.model_tests import *
-from correx.tests.templatetag_tests import *
+from correx.tests.unittests.model_tests import *
+from correx.tests.unittests.templatetag_tests import *
 settings.INSTALLED_APPS = old_installed_apps
