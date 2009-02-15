@@ -1,5 +1,7 @@
 <!--
 	A slight modification of http://www.djangosnippets.org/snippets/1085/ by adnan 
+	and some methods lifted from Steve Michelotti below
+	http://geekswithblogs.net/michelotti/archive/2008/06/28/mvc-json---jsonresult-and-jquery.aspx
 	
 	Since including an app, model or object along with your change is optional,
 	the idea is to only show those fields progressively as the user fills out the form.
@@ -33,6 +35,36 @@
 		$("#lookup_id_object_id").text("Lookup " + model);
 		$("#lookup_id_object_id").attr('href', link_root + app + '/' + model + '/');
 	}
+	
+	function fetch_contenttypes_by_app(selected_app_label) {
+		$.getJSON("/correx/admin/filter/contenttype/", { app_label : selected_app_label }, 
+			function(data){
+				$("#id_content_type").fillSelect(data)
+			});
+	}
+	
+	$.fn.clearSelect = function() {
+		return this.each(function() {
+			if (this.tagName == 'SELECT')
+			this.options.length = 0;
+		});
+	} 
+
+	$.fn.fillSelect = function(data) {
+		return this.clearSelect().each(function() {
+			if (this.tagName == 'SELECT') {
+				var dropdownList = this;
+				$.each(data, function(index, optionData) {
+					var option = new Option(optionData.Text, optionData.Value);   
+					if ($.browser.msie) {
+						dropdownList.add(option);
+					} else {
+						dropdownList.add(option, null);
+					}
+				});
+			}
+		});
+	}
 
  $(document).ready(function(){
 	
@@ -49,11 +81,13 @@
 		showObjectLookup();
 	}
 
-	// When an app is selected, show the model box
+	// When an app is selected, show the model box.
 	// It would be nice if this could filter the model list
 	// by app, since many model names are going to recurr
 	// and large projects will have a long list of models
 	$("#id_content_app").change(function () {
+		$("#id_content_type").clearSelect();
+		fetch_contenttypes_by_app($("#id_content_app option:selected").val());
 		$(".content_type").show();
 	});
 
