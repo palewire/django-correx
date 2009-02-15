@@ -76,13 +76,3 @@ class ChangeTemplateTagTests(ChangeTestCase):
         ctx, out = self.render(t, c=match, a=Article.objects.get(pk=1))
         self.assertEqual(out, "")
         self.assertEqual(list(ctx["change_list"]), [match])
-
-"""
-    def testGetChangeListByApp(self):
-        self.createSomeChanges()
-        t = "{% load correx_tags %}{% get_latest_changes tests 1 %}"
-        match = Change.objects.filter(content_app='tests')[0]
-        ctx, out = self.render(t, c=match)
-        self.assertEqual(out, "")
-        self.assertEqual(list(ctx["latest_changes"]), [match])
-"""

@@ -94,7 +94,6 @@ class Change(models.Model):
 			return self.content_object
 		except ObjectDoesNotExist:
 			return None
-
 	get_content_object.short_description = _('Record')
 
 
