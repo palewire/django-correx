@@ -11,6 +11,7 @@ from django import template
 from django.db.models import get_app
 from django.contrib.contenttypes.models import ContentType
 from correx.models import Change
+from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 
@@ -37,6 +38,45 @@ def do_changes_by_object(parser, token):
 		raise template.TemplateSyntaxError ("get_latest_changes tag takes exactly two arguments")
 	obj_arg = bits[1]
 	return ChangesByObjectNode(obj_arg)
+
+
+class ChangesBySiteNode(template.Node):
+	def __init__(self, id, num, varname):
+		self.id = id
+		self.num = int(num)
+		self.varname = varname
+
+	def render(self, context):
+		try:
+			site = Site.objects.get(pk=self.id)
+		except User.DoesNotExist:
+			raise template.TemplateSyntaxError (_("Site id %s could not be found") % self.username)
+		context[self.varname] = \
+			Change.objects.filter(is_public=True, site=site).order_by('-pub_date')[:self.num]
+		return ''
+
+
+def do_tags_for_site(parser, token):
+	""" 
+	Allows a template-level call for the most recent changes for particular site.
+
+	Syntax:
+	{% get_changes_for_site [site_id] [count] as [varname] %}
+
+	Example usage:
+	{% load correx_tags %}
+	{% get_changes_for_site 1 5 as change_list %}
+	{% for change in change_list %}
+		<li>{{ change.pub_date}} - {{ change.get_change_type_display }} - {{ change.description }}</li>
+	{% endfor %}
+	"""
+	bits = token.contents.split()
+	if len(bits) != 5:
+		raise template.TemplateSyntaxError (_("get_latest_changes tag takes exactly five arguments"))
+	if bits[3] != 'as':
+		raise TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
+	return ChangesBySiteNode(bits[1], bits[2], bits[4])
+
 
 
 class ChangesByUserNode(template.Node):
@@ -114,5 +154,6 @@ class LatestChangesNode(template.Node):
 		return ''
 
 
+register.tag('get_changes_for_site', do_tags_for_site)
 register.tag('get_changes_for_user', do_tags_for_user)
 register.tag('get_latest_changes', do_latest_changes)

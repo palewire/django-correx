@@ -25,7 +25,18 @@ class ChangeTemplateTagTests(ChangeTestCase):
         Tests the tag for pulling the most recent changes by a particular user.
         """
         self.createSomeChanges()
-        t = "{% load correx_tags %}{% get_changes_for_user Russ 1 as latest_changes %}"
+        t = "{% load correx_tags %}{% get_changes_for_user Otis 1 as latest_changes %}"
+        match = Change.objects.get(pk=6)
+        ctx, out = self.render(t, c=match)
+        self.assertEqual(out, "")
+        self.assertEqual(list(ctx["latest_changes"]), [match])
+
+    def testGetChangeListBySite(self):
+        """
+        Tests the tag for pulling the most recent changes for a particular site.
+        """
+        self.createSomeChanges()
+        t = "{% load correx_tags %}{% get_changes_for_site 1881 1 as latest_changes %}"
         match = Change.objects.get(pk=6)
         ctx, out = self.render(t, c=match)
         self.assertEqual(out, "")

@@ -35,6 +35,15 @@
   },
 
   {
+    "model" : "sites.site",
+    "pk" : 1881,
+    "fields" : {
+        "domain" : "projects.latimes.com",
+        "name" : "Los Angeles Times Data Desk"
+    }
+  },
+
+  {
     "model" : "auth.user",
     "pk" : 100,
     "fields" : {

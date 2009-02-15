@@ -32,10 +32,7 @@ class ChangeTestCase(TestCase):
             is_public=True
         )
         # A change with a site
-        lat_data_desk = Site.objects.create(
-            domain='projects.latimes.com', 
-            name='Los Angeles Times Data Desk'
-        )
+        lat_data_desk = Site.objects.get(id=1881)
         change_with_site = Change.objects.create(
             description='Site-level addition', 
             change_type_id='Addition', 
@@ -44,22 +41,13 @@ class ChangeTestCase(TestCase):
             is_public=True
         )
         # A change with a user
-        russ = User.objects.create(
-            username='Russ', 
-            first_name='Russ', 
-            last_name='Stanton', 
-            email='russ@latimes.com', 
-            password='34ea4aaaf24efcbb4b30d27302f8657f', 
-            is_staff=True, 
-            is_active=True,
-            is_superuser=True
-        )
+        otis = User.objects.get(username='Otis')
         change_with_user = Change.objects.create(
             description='Russ makes a site-wide addition', 
             change_type_id='Addition', 
             pub_date='2009-02-14', 
             site=lat_data_desk, 
-            user=russ,
+            user=otis,
             is_public=True
         )
         # A change with an app
@@ -69,7 +57,7 @@ class ChangeTestCase(TestCase):
             change_type_id='Update', 
             pub_date='2009-02-15', 
             site=lat_data_desk, 
-            user=russ, 
+            user=otis, 
             content_app=author_ct.app_label,
             is_public=True
         )
@@ -79,7 +67,7 @@ class ChangeTestCase(TestCase):
             change_type_id='Update', 
             pub_date='2009-02-14', 
             site=lat_data_desk, 
-            user=russ, 
+            user=otis, 
             content_app=author_ct.app_label, 
             content_type=author_ct,
             is_public=True
@@ -91,7 +79,7 @@ class ChangeTestCase(TestCase):
             change_type_id='Correction', 
             pub_date='2009-02-16', 
             site=lat_data_desk, 
-            user=russ, 
+            user=otis, 
             content_app=article_ct.app_label, 
             content_type=article_ct,
             object_id = 1,
