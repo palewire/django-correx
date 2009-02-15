@@ -1,4 +1,0 @@
-* Package everything for distutils in setup.py
-* Write some docs
-* Consider adding a PickledObjectField to the ChangeType model or another method that would allow the denormalized
-storage of user, site, app, model and object totals
