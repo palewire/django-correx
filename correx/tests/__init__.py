@@ -6,7 +6,6 @@ from django.test import TestCase
 
 # Helper base class for changes tests that need data.
 class ChangeTestCase(TestCase):
-    fixtures = ["tests"]
     
     def createSomeChanges(self):
         # A change without links to objects
