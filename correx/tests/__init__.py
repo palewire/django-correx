@@ -3,7 +3,6 @@ from correx.models import Change
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.sites.models import Site
 from django.test import TestCase
-from correx.tests.models import Article, Author
 
 # Helper base class for changes tests that need data.
 class ChangeTestCase(TestCase):
