@@ -78,6 +78,10 @@ class Change(models.Model):
 	def __unicode__(self):
 		return u'%s: %s...' % (self.pub_date, self.description[:50])
 		
+	def short_description(self):
+		return u'%s...' % (self.description[:50])
+	short_description.short_description = _('Description')
+		
 	def get_content_object(self):
 		from django.core.exceptions import ObjectDoesNotExist
 		try:

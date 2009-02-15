@@ -8,7 +8,7 @@ class ChangeTypeAdmin(admin.ModelAdmin):
 admin.site.register(ChangeType, ChangeTypeAdmin)
 
 class ChangeAdmin(admin.ModelAdmin):
-	list_display = ('pub_date', 'change_type', 'description', 'user', 'site', 'content_app', 'content_type', 'get_content_object', 'is_public',)
+	list_display = ('short_description', 'pub_date', 'change_type', 'user', 'site', 'content_app', 'content_type', 'get_content_object', 'is_public',)
 	search_fields = ['description', 'user', 'site', 'content_type', 'content_type', 'change_type']
 	list_filter = ('change_type', 'site', 'content_app', 'is_public',)
 	date_hierarchy = 'pub_date'
