@@ -76,11 +76,14 @@ class Change(models.Model):
 		verbose_name = 'change'
 
 	def __unicode__(self):
-		return u'%s: %s...' % (self.pub_date, self.description[:50])
+		return u'%s: %s...' % (self.pub_date, self.get_short_description())
 		
-	def short_description(self):
+	def get_short_description(self):
+		"""
+		A shorter version of the description field for use in tight spaces.
+		"""
 		return u'%s...' % (self.description[:50])
-	short_description.short_description = _('Description')
+	get_short_description.short_description = _('Description')
 		
 	def get_content_object(self):
 		from django.core.exceptions import ObjectDoesNotExist
