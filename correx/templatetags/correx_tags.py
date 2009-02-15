@@ -1,12 +1,11 @@
 """
 Desired tags:
-{% get_changes_for_app [app] [count] as [varname] %}
 {% get_changes_for_model [model] [count] as [varname] %}
 {% get_changes_for_object [object] [count] as [varname ]%}
 """
 
 from django import template
-from django.db.models import get_app
+from django.db.models import get_app, get_model
 from django.contrib.contenttypes.models import ContentType
 from correx.models import Change
 from django.contrib.sites.models import Site
@@ -38,6 +37,44 @@ def do_changes_by_object(parser, token):
 	return ChangesByObjectNode(obj_arg)
 
 
+class ChangesByModelNode(template.Node):
+	def __init__(self, model, num, varname):
+		self.model = model
+		self.num = int(num)
+		self.varname = varname
+
+	def render(self, context):
+		model = get_model(*self.model.split('.'))
+		if model is None:
+			raise template.TemplateSyntaxError(_('get_changes_for_model tag was given an invalid model: %s') % self.model)
+		ct = ContentType.objects.get_for_model(model)
+		context[self.varname] = \
+			Change.objects.filter(is_public=True, content_type=ct).order_by('-pub_date')[:self.num]
+		return ''
+
+
+def do_changes_for_model(parser, token):
+	""" 
+	Allows a template-level call for the most recent changes for particular model.
+
+	Syntax:
+	{% get_changes_for_model [app_label].[model_name] [count] as [varname] %}
+
+	Example usage:
+	{% load correx_tags %}
+	{% get_changes_for_model newspaper.Article 5 as change_list %}
+	{% for change in change_list %}
+		<li>{{ change.pub_date}} - {{ change.get_change_type_display }} - {{ change.description }}</li>
+	{% endfor %}
+	"""
+	bits = token.contents.split()
+	if len(bits) != 5:
+		raise template.TemplateSyntaxError (_("get_changes_for_model tag takes exactly five arguments"))
+	if bits[3] != 'as':
+		raise TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
+	return ChangesByModelNode(bits[1], bits[2], bits[4])
+
+
 class ChangesByAppNode(template.Node):
 	def __init__(self, app_label, num, varname):
 		self.app_label = app_label
@@ -54,7 +91,7 @@ class ChangesByAppNode(template.Node):
 		return ''
 
 
-def do_tags_for_app(parser, token):
+def do_changes_for_app(parser, token):
 	""" 
 	Allows a template-level call for the most recent changes for particular app.
 	
@@ -72,7 +109,7 @@ def do_tags_for_app(parser, token):
 	"""
 	bits = token.contents.split()
 	if len(bits) != 5:
-		raise template.TemplateSyntaxError (_("get_latest_changes tag takes exactly five arguments"))
+		raise template.TemplateSyntaxError (_("get_changes_for_app tag takes exactly five arguments"))
 	if bits[3] != 'as':
 		raise TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
 	return ChangesByAppNode(bits[1], bits[2], bits[4])
@@ -94,7 +131,7 @@ class ChangesBySiteNode(template.Node):
 		return ''
 
 
-def do_tags_for_site(parser, token):
+def do_changes_for_site(parser, token):
 	""" 
 	Allows a template-level call for the most recent changes for particular site.
 
@@ -110,11 +147,10 @@ def do_tags_for_site(parser, token):
 	"""
 	bits = token.contents.split()
 	if len(bits) != 5:
-		raise template.TemplateSyntaxError (_("get_latest_changes tag takes exactly five arguments"))
+		raise template.TemplateSyntaxError (_("get_changes_for_site tag takes exactly five arguments"))
 	if bits[3] != 'as':
 		raise TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
 	return ChangesBySiteNode(bits[1], bits[2], bits[4])
-
 
 
 class ChangesByUserNode(template.Node):
@@ -133,7 +169,7 @@ class ChangesByUserNode(template.Node):
 		return ''
 
 
-def do_tags_for_user(parser, token):
+def do_changes_for_user(parser, token):
 	""" 
 	Allows a template-level call for the most recent changes for particular user.
 	
@@ -151,7 +187,7 @@ def do_tags_for_user(parser, token):
 	"""
 	bits = token.contents.split()
 	if len(bits) != 5:
-		raise template.TemplateSyntaxError (_("get_latest_changes tag takes exactly five arguments"))
+		raise template.TemplateSyntaxError (_("get_changes_for_user tag takes exactly five arguments"))
 	if bits[3] != 'as':
 		raise TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
 	return ChangesByUserNode(bits[1], bits[2], bits[4])
@@ -192,7 +228,8 @@ def do_latest_changes(parser, token):
 	return LatestChangesNode(bits[1], bits[3])
 
 
-register.tag('get_changes_for_app', do_tags_for_app)
-register.tag('get_changes_for_site', do_tags_for_site)
-register.tag('get_changes_for_user', do_tags_for_user)
+register.tag('get_changes_for_model', do_changes_for_model)
+register.tag('get_changes_for_app', do_changes_for_app)
+register.tag('get_changes_for_site', do_changes_for_site)
+register.tag('get_changes_for_user', do_changes_for_user)
 register.tag('get_latest_changes', do_latest_changes)
