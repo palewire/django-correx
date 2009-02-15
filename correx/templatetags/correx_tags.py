@@ -1,7 +1,6 @@
 """
 Desired tags:
-{% get_changes_for_model [model] [count] as [varname] %}
-{% get_changes_for_object [object] [count] as [varname ]%}
+
 """
 
 from django import template
@@ -14,27 +13,46 @@ from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
 
-def do_changes_by_object(parser, token):
+
+class ChangesByObjectNode(template.Node):
+	def __init__(self, obj, num, varname):
+		self.obj = template.Variable(obj)
+		self.num = int(num)
+		self.varname = varname
+
+	def render(self, context):
+		resolved_obj = self.obj.resolve(context)
+		try:
+			ct = ContentType.objects.get_for_model(resolved_obj)
+		except:
+			raise template.TemplateSyntaxError (_("model could not be found for object"))
+		context[self.varname] = \
+			Change.objects.filter(is_public=True, content_type=ct, object_id=resolved_obj.pk).order_by('-pub_date')[:self.num]
+		return ''
+
+
+def do_changes_for_object(parser, token):
 	""" 
 	Allows a template-level call for the changes for a particular object.
 	
 	Good for pulling the list into object_detail pages.
 	
 	Syntax:
-	{% get_changes_for_object [object] %}
+	{% get_changes_for_object [object] [count] as [varname] %}
 	
 	Example usage:
 	{% load correx_tags %}
-	{% get_changes_for_object object %}
+	{% get_changes_for_object object 5 as change_list %}
 	{% for change in change_list %}
 		<li>{{ change.pub_date }} - {{ change.get_change_type_display }} - {{ change.description }}</li>
 	{% endfor %}
 	"""
 	bits = token.contents.split()
-	if len(bits) != 2:
-		raise template.TemplateSyntaxError ("get_latest_changes tag takes exactly two arguments")
-	obj_arg = bits[1]
-	return ChangesByObjectNode(obj_arg)
+	if len(bits) != 5:
+		raise template.TemplateSyntaxError (_("get_changes_for_object tag takes exactly five arguments"))
+	if bits[3] != 'as':
+		raise TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
+	return ChangesByObjectNode(bits[1], bits[2], bits[4])
 
 
 class ChangesByModelNode(template.Node):
@@ -228,6 +246,7 @@ def do_latest_changes(parser, token):
 	return LatestChangesNode(bits[1], bits[3])
 
 
+register.tag('get_changes_for_object', do_changes_for_object)
 register.tag('get_changes_for_model', do_changes_for_model)
 register.tag('get_changes_for_app', do_changes_for_app)
 register.tag('get_changes_for_site', do_changes_for_site)
