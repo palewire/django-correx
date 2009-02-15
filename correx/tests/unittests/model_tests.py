@@ -1,5 +1,5 @@
-from correx.models import Change, ChangeType
 from correx.tests import ChangeTestCase
+from correx.models import Change, ChangeType
 
 class CorrexModelTests(ChangeTestCase):
 

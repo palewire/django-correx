@@ -1,15 +1,18 @@
-from django.db import models
-from django.contrib.contenttypes import generic
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.sites.models import Site
-from django.contrib.auth.models import User
-from django.utils.translation import ugettext_lazy as _
-from django.conf import settings
-from correx.managers import ChangeManager
-from django.db.models import signals
-from correx.signals import count_changes
-
 import datetime
+
+from django.db import models
+from django.conf import settings
+from django.db.models import signals
+from django.contrib.contenttypes import generic
+from django.utils.translation import ugettext_lazy as _
+
+from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
+from django.contrib.contenttypes.models import ContentType
+
+from correx.signals import count_changes
+from correx.managers import ChangeManager
+
 
 class ChangeType(models.Model):
 	"""
@@ -93,7 +96,7 @@ class Change(models.Model):
 			return None
 
 	get_content_object.short_description = _('Record')
-	
+
 
 # Rerun the totals for each ChangeType whenever a Change is saved or deleted.
 signals.post_save.connect(count_changes, sender=Change)

@@ -1,6 +1,7 @@
 from django.template import Template, Context
-from correx.tests import ChangeTestCase
+
 from correx.models import Change
+from correx.tests import ChangeTestCase
 from correx.tests.models import Article, Author
 
 class ChangeTemplateTagTests(ChangeTestCase):

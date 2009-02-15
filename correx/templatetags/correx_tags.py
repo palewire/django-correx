@@ -1,15 +1,12 @@
-"""
-Desired tags:
-
-"""
-
 from django import template
 from django.db.models import get_app, get_model
-from django.contrib.contenttypes.models import ContentType
-from correx.models import Change
-from django.contrib.sites.models import Site
+
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
+from django.contrib.contenttypes.models import ContentType
 from django.utils.translation import ugettext_lazy as _
+
+from correx.models import Change
 
 register = template.Library()
 

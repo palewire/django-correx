@@ -1,10 +1,12 @@
-from django.contrib.auth.models import User
-from correx.models import Change
-from correx.tests.models import Article, Author
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.sites.models import Site
 from django.test import TestCase
 from django.db.models.loading import get_apps, load_app
+
+from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
+from django.contrib.contenttypes.models import ContentType
+
+from correx.models import Change
+from correx.tests.models import Article, Author
 
 # Add the test models to INSTALLED_APPS
 # Not sure if this the best way to do it.
