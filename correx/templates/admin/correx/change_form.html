@@ -35,7 +35,7 @@
 	}
 	
 	function fetch_contenttypes_by_app(selected_app_label, preselected_val) {
-		$.getJSON({% url arch-summary filter-contenttypes-by-app %}, { app_label : selected_app_label }, 
+		$.getJSON('{% url filter-contenttypes-by-app %}', { app_label : selected_app_label }, 
 			function(data){
 				$("#id_content_type").fillSelect(data)
 				if (data.length === 1) {
