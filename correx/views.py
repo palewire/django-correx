@@ -27,6 +27,6 @@ def filter_contenttypes_by_app(request):
 	
 	# Load the results into the dictionary
 	for ct in content_types:
-		response_list += [{'Text': ct.name, 'Value': str(ct.pk)}]
+		response_list += [{'Text': ct.model, 'Value': str(ct.pk)}]
 
 	return HttpResponse(simplejson.dumps(response_list), mimetype='application/javascript')
