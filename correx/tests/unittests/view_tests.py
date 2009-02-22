@@ -43,5 +43,5 @@ class CorrexViewTests(ChangeTestCase):
 			# Run through the list and make sure each is a legit model
 			for model in model_names:
 			
-				# If it equals null it means we the model couldn't be found
+				# If it equals null it means the model couldn't be found
 				self.failIfEqual(get_model(app, model), None)
