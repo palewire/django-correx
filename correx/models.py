@@ -76,7 +76,7 @@ class Change(models.Model):
 	# The change
 	description    = models.TextField(help_text=_('A description of the change'))
 	change_type    = models.ForeignKey(ChangeType, help_text=_('The type of change'), verbose_name=_('Type'))
-	pub_date       = models.DateTimeField(default=datetime.datetime.now, verbose_name=_('Publication Date'))
+	pub_date       = models.DateTimeField(default=datetime.datetime.now, verbose_name=_('Publication date'))
 	is_public      = models.BooleanField(default=False, help_text=_('Check this box to publish the comment on the live site.'), verbose_name=_('Publish'))
 
 	# Optional connection to the user making the change
@@ -112,6 +112,9 @@ class Change(models.Model):
 	get_short_description.short_description = _('Description')
 		
 	def get_content_object(self):
+		"""
+		The object connected to this record by the content_object generic foreign key.
+		"""
 		from django.core.exceptions import ObjectDoesNotExist
 		try:
 			return self.content_object
