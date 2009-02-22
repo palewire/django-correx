@@ -6,12 +6,16 @@ from django.contrib.contenttypes.models import ContentType
 
 def filter_contenttypes_by_app(request):
 	""" 
-	Intended to fetch AJAX calls from admin templates.
+	Accepts an app_label as a query_string and returns its associated model set 
+	as JSON in a format designed to fill an in an HTML dropdown menu.
+	
+	HTTP GET is required.
 	"""
-	# If there is not a POST request throw a 404
+	# If there is not a GET request throw a 404
 	if not request.GET:
 		raise Http404
-		
+	
+	# Seed the response JSON with the bare minimum, enough to fill an empty select box
 	response_list = [{'Text': '---------', 'Value': ''}]
 	
 	# Grab the post variable

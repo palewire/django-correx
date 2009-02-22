@@ -62,7 +62,7 @@ class Change(models.Model):
 	
 	``Managers``
 		
-		+ ``live()``
+		``live()``
 			The custom manager live() returns only changes where `is_public` is True. 
 			
 			Example::
