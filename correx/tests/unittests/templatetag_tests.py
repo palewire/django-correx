@@ -4,7 +4,7 @@ from correx.models import Change
 from correx.tests import ChangeTestCase
 from correx.tests.models import Article, Author
 
-class ChangeTemplateTagTests(ChangeTestCase):
+class CorrexTemplateTagTests(ChangeTestCase):
 
     def render(self, t, **c):
         ctx = Context(c)

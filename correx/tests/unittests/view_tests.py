@@ -1,8 +1,10 @@
-from correx.tests import ChangeTestCase
 from django.test.client import Client
+
+from correx.tests import ChangeTestCase
 from correx.models import Change, ChangeType
 
-class SimpleTest(ChangeTestCase):
+
+class CorrexViewTests(ChangeTestCase):
 	
 	def setUp(self):
 	"""
@@ -23,3 +25,4 @@ class SimpleTest(ChangeTestCase):
 			response = self.client.get(url, {'app_label': app})
 			# Check that the response is 200 OK.
 			self.failUnlessEqual(response.status_code, 200)
+			print response.content

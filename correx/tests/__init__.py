@@ -92,5 +92,6 @@ class ChangeTestCase(TestCase):
 
 from correx.tests.unittests.model_tests import *
 from correx.tests.unittests.templatetag_tests import *
+from correx.tests.unittests.view_tests import *
 # Resetting INSTALLED_APPS...though I'm not sure it does everything it should
 settings.INSTALLED_APPS = old_installed_apps
