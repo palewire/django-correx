@@ -15,13 +15,13 @@ def filter_contenttypes_by_app(request):
 	response_list = [{'Text': '---------', 'Value': ''}]
 	
 	# Grab the post variable
-	app_label = request.GET.get('app_label')
-	if not app_label:
+	qs = request.GET.get('app_label')
+	if not qs:
 		HttpResponse(simplejson.dumps(response_list), mimetype='application/javascript')
 	
 	try:
 		# Fetch all of the ContentType records from that app
-		content_types = ContentType.objects.filter(app_label=app_label)
+		content_types = ContentType.objects.filter(app_label=qs)
 	except:
 		raise Http404
 	

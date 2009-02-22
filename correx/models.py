@@ -69,7 +69,8 @@ class Change(models.Model):
 	# I've excluded the django contrib apps and included them as
 	# strings to avoid "magic numbers" and so that it won't matter 
 	# if you change their order in settings.py
-	installed_apps = [(i, i) for i in settings.INSTALLED_APPS if i.find('django')]
+	# Any modules with parent folders are stripped down with the split function.
+	installed_apps = [(i.split('.')[-1], i.split('.')[-1]) for i in settings.INSTALLED_APPS if i.find('django')]
 	installed_apps.sort()
 	APP_CHOICES = installed_apps
 	
