@@ -6,6 +6,9 @@ from correx.tests.models import Article, Author
 
 class CorrexTemplateTagTests(ChangeTestCase):
 
+    def setUp(self):
+        self.createSomeChanges()
+
     def render(self, t, **c):
         ctx = Context(c)
         out = Template(t).render(ctx)
@@ -15,7 +18,6 @@ class CorrexTemplateTagTests(ChangeTestCase):
         """
         Tests the tag for pulling the most recently published changes.
         """
-        self.createSomeChanges()
         t = "{% load correx_tags %}{% get_latest_changes 1 as latest_changes %}"
         match = Change.objects.get(pk=6)
         ctx, out = self.render(t, c=match)
@@ -26,7 +28,6 @@ class CorrexTemplateTagTests(ChangeTestCase):
         """
         Tests the tag for pulling the most recent changes by a particular user.
         """
-        self.createSomeChanges()
         t = "{% load correx_tags %}{% get_changes_for_user Otis 1 as change_list %}"
         match = Change.objects.get(pk=6)
         ctx, out = self.render(t, c=match)
@@ -37,7 +38,6 @@ class CorrexTemplateTagTests(ChangeTestCase):
         """
         Tests the tag for pulling the most recent changes for a particular site.
         """
-        self.createSomeChanges()
         t = "{% load correx_tags %}{% get_changes_for_site 1881 1 as change_list %}"
         match = Change.objects.get(pk=6)
         ctx, out = self.render(t, c=match)
@@ -48,7 +48,6 @@ class CorrexTemplateTagTests(ChangeTestCase):
         """
         Tests the tag for pulling the most recent changes for a particular app.
         """
-        self.createSomeChanges()
         t = "{% load correx_tags %}{% get_changes_for_app tests 1 as change_list %}"
         match = Change.objects.get(pk=6)
         ctx, out = self.render(t, c=match)
@@ -59,7 +58,6 @@ class CorrexTemplateTagTests(ChangeTestCase):
         """
         Tests the tag for pulling the most recent changes for a particular model.
         """
-        self.createSomeChanges()
         t = "{% load correx_tags %}{% get_changes_for_model tests.Article 1 as change_list %}"
         match = Change.objects.get(pk=6)
         ctx, out = self.render(t, c=match)
@@ -70,7 +68,6 @@ class CorrexTemplateTagTests(ChangeTestCase):
         """
         Tests the tag for pulling the most recent changes for a particular model.
         """
-        self.createSomeChanges()
         t = "{% load correx_tags %}{% get_changes_for_object a 1 as change_list %}"
         match = Change.objects.get(pk=6)
         ctx, out = self.render(t, c=match, a=Article.objects.get(pk=1))
