@@ -30,19 +30,22 @@ class ChangesByObjectNode(template.Node):
 
 def do_changes_for_object(parser, token):
 	""" 
-	Allows a template-level call for the changes for a particular object.
+	Gets a list of the changes for a particular object.
 	
+	Syntax::
+
+		{% get_changes_for_object [object] [count] as [varname] %}
+	
+	Example usage::
+
+		{% load correx_tags %}
+		{% get_changes_for_object object 5 as change_list %}
+		{% for change in change_list %}
+			<li>{{ change.pub_date }} - {{ change.get_change_type_display }} - {{ change.description }}</li>
+		{% endfor %}
+		
 	Good for pulling the list into object_detail pages.
-	
-	Syntax:
-	{% get_changes_for_object [object] [count] as [varname] %}
-	
-	Example usage:
-	{% load correx_tags %}
-	{% get_changes_for_object object 5 as change_list %}
-	{% for change in change_list %}
-		<li>{{ change.pub_date }} - {{ change.get_change_type_display }} - {{ change.description }}</li>
-	{% endfor %}
+		
 	"""
 	bits = token.contents.split()
 	if len(bits) != 5:
@@ -70,17 +73,20 @@ class ChangesByModelNode(template.Node):
 
 def do_changes_for_model(parser, token):
 	""" 
-	Allows a template-level call for the most recent changes for particular model.
+	Gets a list of the most recent changes for particular model.
 
-	Syntax:
-	{% get_changes_for_model [app_label].[model_name] [count] as [varname] %}
+	Syntax::
+	
+		{% get_changes_for_model [app_label].[model_name] [count] as [varname] %}
 
-	Example usage:
-	{% load correx_tags %}
-	{% get_changes_for_model newspaper.Article 5 as change_list %}
-	{% for change in change_list %}
-		<li>{{ change.pub_date}} - {{ change.get_change_type_display }} - {{ change.description }}</li>
-	{% endfor %}
+	Example usage::
+	
+		{% load correx_tags %}
+		{% get_changes_for_model newspaper.Article 5 as change_list %}
+		{% for change in change_list %}
+			<li>{{ change.pub_date}} - {{ change.get_change_type_display }} - {{ change.description }}</li>
+		{% endfor %}
+
 	"""
 	bits = token.contents.split()
 	if len(bits) != 5:
@@ -108,19 +114,22 @@ class ChangesByAppNode(template.Node):
 
 def do_changes_for_app(parser, token):
 	""" 
-	Allows a template-level call for the most recent changes for particular app.
-	
+	Gets a list of the most recent changes for particular app.
+
+	Syntax::
+
+		{% get_changes_for_app [app_label] [count] as [varname] %}
+
+	Example usage::
+
+		{% load correx_tags %}
+		{% get_changes_for_app newspaper 5 as change_list %}
+		{% for change in change_list %}
+			<li>{{ change.pub_date}} - {{ change.get_change_type_display }} - {{ change.description }}</li>
+		{% endfor %}
+
 	Good for sidebars or pulling in a list on a standalone or showcase app.
 
-	Syntax:
-	{% get_changes_for_app [app_label] [count] as [varname] %}
-
-	Example usage:
-	{% load correx_tags %}
-	{% get_changes_for_app newspaper 5 as change_list %}
-	{% for change in change_list %}
-		<li>{{ change.pub_date}} - {{ change.get_change_type_display }} - {{ change.description }}</li>
-	{% endfor %}
 	"""
 	bits = token.contents.split()
 	if len(bits) != 5:
@@ -148,17 +157,20 @@ class ChangesBySiteNode(template.Node):
 
 def do_changes_for_site(parser, token):
 	""" 
-	Allows a template-level call for the most recent changes for particular site.
+	Gets a list of the most recent changes for particular site.
 
-	Syntax:
-	{% get_changes_for_site [site_id] [count] as [varname] %}
+	Syntax::
 
-	Example usage:
-	{% load correx_tags %}
-	{% get_changes_for_site 1 5 as change_list %}
-	{% for change in change_list %}
-		<li>{{ change.pub_date}} - {{ change.get_change_type_display }} - {{ change.description }}</li>
-	{% endfor %}
+		{% get_changes_for_site [site_id] [count] as [varname] %}
+
+	Example usage::
+
+		{% load correx_tags %}
+		{% get_changes_for_site 1 5 as change_list %}
+		{% for change in change_list %}
+			<li>{{ change.pub_date}} - {{ change.get_change_type_display }} - {{ change.description }}</li>
+		{% endfor %}
+
 	"""
 	bits = token.contents.split()
 	if len(bits) != 5:
@@ -186,19 +198,22 @@ class ChangesByUserNode(template.Node):
 
 def do_changes_for_user(parser, token):
 	""" 
-	Allows a template-level call for the most recent changes for particular user.
+	Gets a list of  the most recent changes for particular user.
 	
-	Good for pulling the list into a user profile page.
+	Syntax::
 	
-	Syntax:
-	{% get_changes_for_user [username] [count] as [varname] %}
-	
-	Example usage:
-	{% load correx_tags %}
-	{% get_changes_for_user Otis 5 as change_list %}
-	{% for change in change_list %}
-		<li>{{ change.pub_date}} - {{ change.get_change_type_display }} - {{ change.description }}</li>
-	{% endfor %}
+		{% get_changes_for_user [username] [count] as [varname] %}
+
+	Example usage::
+
+		{% load correx_tags %}
+		{% get_changes_for_user Otis 5 as change_list %}
+		{% for change in change_list %}
+			<li>{{ change.pub_date}} - {{ change.get_change_type_display }} - {{ change.description }}</li>
+		{% endfor %}
+
+	Good for sidebars or pulling in a list on a standalone or showcase app.
+
 	"""
 	bits = token.contents.split()
 	if len(bits) != 5:
@@ -220,19 +235,22 @@ class LatestChangesNode(template.Node):
 
 def do_latest_changes(parser, token):
 	""" 
-	Allows a template-level call for the most recent changes regardless of user, site, app, model or object.
+	Gets a list of the most recent changes regardless of user, site, app, model or object.
 	
+	Syntax::
+
+		{% get_latest_changes [count] as [varname] %}
+	
+	Example usage::
+
+		{% load correx_tags %}
+		{% get_latest_changes 5 as latest_changes %}
+		{% for change in latest_changes %}
+			<li>{{ change.pub_date}} - {{ change.get_change_type_display }} - {{ change.description }}</li>
+		{% endfor %}
+		
 	Good for pulling the list into sidebars that run across an app or site.
-	
-	Syntax:
-	{% get_latest_changes [count] as [varname] %}
-	
-	Example usage:
-	{% load correx_tags %}
-	{% get_latest_changes 5 as latest_changes %}
-	{% for change in latest_changes %}
-		<li>{{ change.pub_date}} - {{ change.get_change_type_display }} - {{ change.description }}</li>
-	{% endfor %}
+
 	"""
 	
 	bits = token.contents.split()
