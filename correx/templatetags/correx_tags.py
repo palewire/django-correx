@@ -51,7 +51,7 @@ def do_changes_for_object(parser, token):
 	if len(bits) != 5:
 		raise template.TemplateSyntaxError (_("get_changes_for_object tag takes exactly five arguments"))
 	if bits[3] != 'as':
-		raise TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
+		raise template.TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
 	return ChangesByObjectNode(bits[1], bits[2], bits[4])
 
 
@@ -92,7 +92,7 @@ def do_changes_for_model(parser, token):
 	if len(bits) != 5:
 		raise template.TemplateSyntaxError (_("get_changes_for_model tag takes exactly five arguments"))
 	if bits[3] != 'as':
-		raise TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
+		raise template.TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
 	return ChangesByModelNode(bits[1], bits[2], bits[4])
 
 
@@ -135,7 +135,7 @@ def do_changes_for_app(parser, token):
 	if len(bits) != 5:
 		raise template.TemplateSyntaxError (_("get_changes_for_app tag takes exactly five arguments"))
 	if bits[3] != 'as':
-		raise TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
+		raise template.TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
 	return ChangesByAppNode(bits[1], bits[2], bits[4])
 
 
@@ -176,7 +176,7 @@ def do_changes_for_site(parser, token):
 	if len(bits) != 5:
 		raise template.TemplateSyntaxError (_("get_changes_for_site tag takes exactly five arguments"))
 	if bits[3] != 'as':
-		raise TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
+		raise template.TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
 	return ChangesBySiteNode(bits[1], bits[2], bits[4])
 
 
@@ -219,7 +219,7 @@ def do_changes_for_user(parser, token):
 	if len(bits) != 5:
 		raise template.TemplateSyntaxError (_("get_changes_for_user tag takes exactly five arguments"))
 	if bits[3] != 'as':
-		raise TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
+		raise template.TemplateSyntaxError(_("fourth argument to %s tag must be 'as'") % bits[0])
 	return ChangesByUserNode(bits[1], bits[2], bits[4])
 
 
