@@ -9,7 +9,7 @@ The name is drawn from 'correx', a common newspaper slang term for each day's co
 
 h3. Installation
 
-Refer to INSTALL
+Check out INSTALL.textile in this same directory
 
 h3. Contributing
 
