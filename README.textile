@@ -13,6 +13,7 @@ Check out INSTALL.textile in this same directory
 
 h3. Dependencies
 
+* Python 2.4 or greater
 * Django 1.0 or greater
 
 h3. Contributing
