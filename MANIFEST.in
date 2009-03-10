@@ -1,6 +1,6 @@
-include README
+include README.textile
 include LICENSE
-include INSTALL
+include INSTALL.textile
 recursive-include media *
 recursive-include correx/templates *
 recursive-include correx/fixtures *

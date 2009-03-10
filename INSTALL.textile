@@ -1,0 +1,14 @@
+h1. Installation
+
+# Pull the latest revision from the source code's trunk at "http://github.com/palewire/django-correx/tree/master":http://github.com/palewire/django-correx/tree/master
+# Navigate to the cloned directory in the terminal
+# Enter 'python setup.py install' and the package will install itself on your PYTHONPATH
+# Add 'correx' to INSTALLED_APPS in settings.py
+# Run 'python manage.py syncdb' to create the database tables
+# Add '(r'^correx/', include('correx.urls')),' to your root urls.py file
+# Copy the `media` folder to your MEDIA_URL if you intended to use the sample icons
+
+That's it! I've tried to explain how everything works in the docstrings. 
+
+If you have any additional questions or think that any of this merits longer documentation, shoot me
+an email at palewire@palewire.com. Criticisms, bug reports and hate mail all appreciated.

@@ -1,6 +1,4 @@
-=============
-django-correx
-=============
+h1. django-correx
 
 A set of models and template tags for pulling in lists of content changes across applications.
 
@@ -9,13 +7,16 @@ but instead a curated list of changes intended for presentation to the public.
 
 The name is drawn from 'correx', a common newspaper slang term for each day's corrections list.
 
-Contributing
-------------
+h3. Installation
+
+Refer to INSTALL
+
+h3. Contributing
 
 This is a very ugly, early release by a well-meaning, but perhaps misguided, person. 
 
 Almost all of the good parts are lifted from such great pluggable apps as 
 django.contrib.comments and django-tagging
 
-The source is on GitHub: http://github.com/palewire/django-correx. Feel
-free to send me pull requests, or send patches to <palewire@palewire.com>.
+The source is on "GitHub":http://github.com/palewire/django-correx. Feel
+free to send me pull requests, or send patches to palewire@palewire.com.
