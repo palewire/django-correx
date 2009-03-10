@@ -1,0 +1,3 @@
+h2. Wishlist
+
+* RSS Feeds for site, apps, objects!
