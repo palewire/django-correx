@@ -11,6 +11,10 @@ h3. Installation
 
 Check out INSTALL.textile in this same directory
 
+h3. Dependencies
+
+* Django 1.0 or greater
+
 h3. Contributing
 
 This is a very ugly, early release by a well-meaning, but perhaps misguided, person. 
