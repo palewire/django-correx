@@ -1,5 +1,4 @@
-from django.db.models import signals
-from django.dispatch import dispatcher
+
 
 def count_changes(sender, instance, signal, *args, **kwargs):
 	"""

@@ -1,14 +1,16 @@
+# Templating
 from django import template
-from django.db.models import get_app, get_model
+register = template.Library()
 
+# Models
+from correx.models import Change
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
+from django.db.models import get_app, get_model
 from django.contrib.contenttypes.models import ContentType
+
+# Text manipulation
 from django.utils.translation import ugettext_lazy as _
-
-from correx.models import Change
-
-register = template.Library()
 
 
 class ChangesByObjectNode(template.Node):
@@ -261,6 +263,7 @@ def do_latest_changes(parser, token):
 	return LatestChangesNode(bits[1], bits[3])
 
 
+# Register the tags
 register.tag('get_changes_for_object', do_changes_for_object)
 register.tag('get_changes_for_model', do_changes_for_model)
 register.tag('get_changes_for_app', do_changes_for_app)

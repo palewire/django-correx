@@ -1,11 +1,14 @@
+# Admin
 from django.contrib import admin
+
+# Models
 from correx.models import Change, ChangeType
+
 
 class ChangeTypeAdmin(admin.ModelAdmin):
 	list_display = ('name', 'description', 'change_count',)
 	prepopulated_fields = {"slug": ("name",)}
-	
-admin.site.register(ChangeType, ChangeTypeAdmin)
+
 
 class ChangeAdmin(admin.ModelAdmin):
 	list_display = ('get_short_description', 'pub_date', 'change_type', 'user', 'site', 'content_app', 'content_type', 'get_content_object', 'is_public',)
@@ -18,4 +21,7 @@ class ChangeAdmin(admin.ModelAdmin):
 		('Publishing', { 'fields': ('is_public',)}),
 	)
 
+
+# Register admins
+admin.site.register(ChangeType, ChangeTypeAdmin)
 admin.site.register(Change, ChangeAdmin)

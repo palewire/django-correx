@@ -1,17 +1,23 @@
-import datetime
-
-from django.db import models
+# Django settings
 from django.conf import settings
-from django.db.models import signals
-from django.contrib.contenttypes import generic
-from django.utils.translation import ugettext_lazy as _
 
+# Models and fields
+from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
+from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 
+# Signals
+from django.db.models import signals
 from correx.signals import count_changes
+
+# Managers
 from correx.managers import ChangeManager
+
+# Text and date manipulation
+import datetime
+from django.utils.translation import ugettext_lazy as _
 
 
 class ChangeType(models.Model):
