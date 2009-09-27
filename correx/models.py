@@ -111,7 +111,7 @@ class Change(models.Model):
 		verbose_name = _('change')
 
 	def __unicode__(self):
-		return u'%s: %s...' % (self.pub_date, self.get_short_description())
+		return self.description
 
 	def get_absolute_url(self):
 		return u'/change-log/change/%s/' % self.pk
@@ -122,7 +122,8 @@ class Change(models.Model):
 		"""
 		return u'%s...' % (self.description[:50])
 	get_short_description.short_description = _('Description')
-		
+	short_description = property(get_short_description)
+	
 	def get_content_object(self):
 		"""
 		The object connected to this record by the content_object generic foreign key.

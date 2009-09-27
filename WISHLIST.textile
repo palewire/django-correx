@@ -1,3 +1,5 @@
 h2. Wishlist
 
+* Icon for palewire. Eraser? Red 'X'?
+* Work on the JavaScript so it's solid 
 * RSS Feeds for site, apps, objects!
